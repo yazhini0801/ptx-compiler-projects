@@ -1,0 +1,9 @@
+digraph CFG {
+  node [shape=box];
+  B0 [label="B0 (function 0)\nmov.u32 %r1, 0"];
+  B1 [label="B1 (function 0)\nloop\nadd.u32 %r1, %r1, 1\nsetp.lt.u32 %p1, %r1, 4\nbra loop"];
+  B2 [label="B2 (function 0)\nret "];
+  B0 -> B1;
+  B1 -> B1;
+  B1 -> B2;
+}

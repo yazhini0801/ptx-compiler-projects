@@ -1,0 +1,7 @@
+*.exe
+*.obj
+*.o
+*.cubin
+__pycache__/
+*.pyc
+Project2-colab.zip

@@ -1,0 +1,4 @@
+digraph CFG {
+  node [shape=box];
+  B0 [label="B0 (function 0)\nmov.u32 %r1, 1\nret "];
+}

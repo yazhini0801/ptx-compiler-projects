@@ -1,0 +1,9 @@
+digraph CFG {
+  node [shape=box];
+  B0 [label="B0 (function 0)\nld.param.u64 %rd4, [vadd_param_0]\ncvta.to.global.u64 %rd1, %rd4\nld.param.u64 %rd5, [vadd_param_1]\ncvta.to.global.u64 %rd2, %rd5\nld.param.u64 %rd6, [vadd_param_2]\ncvta.to.global.u64 %rd3, %rd6\nld.param.u32 %r1, [vadd_param_3]\nmov.u32 %r3, %ctaid.x\nmov.u32 %r4, %ntid.x\nmov.u32 %r5, %tid.x\nmad.lo.s32 %r6, %r3, %r4, %r5\nmov.b32 %r2, %r6\nsetp.lt.s32 %p1, %r2, %r1\nbra L_end1"];
+  B1 [label="B1 (function 0)\nmul.wide.s32 %rd8, %r2, 4\nadd.s64 %rd7, %rd1, %rd8\nld.global.f32 %f1, [%rd7]\nmul.wide.s32 %rd10, %r2, 4\nadd.s64 %rd9, %rd2, %rd10\nld.global.f32 %f2, [%rd9]\nadd.f32 %f3, %f1, %f2\nmul.wide.s32 %rd11, %r2, 4\nadd.s64 %rd12, %rd3, %rd11\nst.global.f32 [%rd12], %f3"];
+  B2 [label="B2 (function 0)\nL_end1\nret "];
+  B0 -> B2;
+  B0 -> B1;
+  B1 -> B2;
+}

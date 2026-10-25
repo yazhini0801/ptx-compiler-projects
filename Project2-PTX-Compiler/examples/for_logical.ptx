@@ -1,0 +1,55 @@
+.version 7.8
+.target sm_75
+.address_size 64
+
+.visible .entry for_logical(
+    .param .u64 for_logical_param_0,
+    .param .u32 for_logical_param_1
+)
+{
+    .reg .pred %p<7>;
+    .reg .b32 %r<12>;
+    .reg .b64 %rd<5>;
+    ld.param.u64 %rd2, [for_logical_param_0];
+    cvta.to.global.u64 %rd1, %rd2;
+    ld.param.u32 %r1, [for_logical_param_1];
+    mov.s32 %r3, 0;
+    mov.b32 %r2, %r3;
+    mov.s32 %r5, 0;
+    mov.b32 %r4, %r5;
+L_cond1:
+    setp.lt.s32 %p1, %r4, %r1;
+    @!%p1 bra L_end1;
+    setp.lt.s32 %p2, %r4, %r1;
+    @!%p2 bra L_logic_short2;
+    mov.s32 %r6, 0;
+    setp.ge.s32 %p4, %r4, %r6;
+    mov.pred %p3, %p4;
+    bra L_logic_end2;
+L_logic_short2:
+    mov.pred %p3, %p2;
+L_logic_end2:
+    @%p3 bra L_logic_short3;
+    mov.s32 %r7, 0;
+    setp.eq.s32 %p6, %r1, %r7;
+    mov.pred %p5, %p6;
+    bra L_logic_end3;
+L_logic_short3:
+    mov.pred %p5, %p3;
+L_logic_end3:
+    @!%p5 bra L_end4;
+    add.s32 %r8, %r2, %r4;
+    mov.b32 %r2, %r8;
+L_end4:
+    mov.s32 %r9, 1;
+    add.s32 %r10, %r4, %r9;
+    mov.b32 %r4, %r10;
+    bra L_cond1;
+L_end1:
+    mov.s32 %r11, 0;
+    mul.wide.s32 %rd3, %r11, 4;
+    add.s64 %rd4, %rd1, %rd3;
+    st.global.s32 [%rd4], %r2;
+    ret;
+}
+

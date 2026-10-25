@@ -1,0 +1,12 @@
+.version 7.0
+.target sm_70
+.entry count_to_four() {
+    .reg .pred %p1;
+    .reg .b32 %r1;
+    mov.u32 %r1, 0;
+loop:
+    add.u32 %r1, %r1, 1;
+    setp.lt.u32 %p1, %r1, 4;
+    @%p1 bra loop;
+    ret;
+}

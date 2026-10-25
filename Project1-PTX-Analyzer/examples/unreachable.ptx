@@ -1,0 +1,10 @@
+.version 7.0
+.target sm_70
+.entry unreachable_example() {
+    .reg .b32 %r1, %r2;
+    mov.u32 %r1, 1;
+    ret;
+dead_block:
+    add.u32 %r2, %r1, 1;
+    ret;
+}

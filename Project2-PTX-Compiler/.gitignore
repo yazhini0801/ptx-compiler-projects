@@ -1,0 +1,12 @@
+ptxc
+ptxc.exe
+test-compiler
+test-compiler.exe
+ptxc-check.exe
+test-compiler-check.exe
+*.cubin
+Project2-colab.zip
+*.obj
+*.o
+__pycache__/
+*.pyc

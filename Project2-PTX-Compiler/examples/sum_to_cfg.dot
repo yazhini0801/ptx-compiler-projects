@@ -1,0 +1,16 @@
+digraph CFG {
+  node [shape=box];
+  B0 [label="B0 (function 0)\nld.param.u64 %rd2, [sum_to_param_0]\ncvta.to.global.u64 %rd1, %rd2\nld.param.u32 %r1, [sum_to_param_1]\nmov.u32 %r3, %ctaid.x\nmov.u32 %r4, %ntid.x\nmov.u32 %r5, %tid.x\nmad.lo.s32 %r6, %r3, %r4, %r5\nmov.b32 %r2, %r6\nsetp.lt.s32 %p1, %r2, %r1\nbra L_end1"];
+  B1 [label="B1 (function 0)\nmov.s32 %r8, 0\nmov.b32 %r7, %r8\nmov.s32 %r10, 0\nmov.b32 %r9, %r10"];
+  B2 [label="B2 (function 0)\nL_cond2\nsetp.lt.s32 %p2, %r9, %r1\nbra L_end2"];
+  B3 [label="B3 (function 0)\nadd.s32 %r11, %r7, %r9\nmov.b32 %r7, %r11\nmov.s32 %r12, 1\nadd.s32 %r13, %r9, %r12\nmov.b32 %r9, %r13\nbra L_cond2"];
+  B4 [label="B4 (function 0)\nL_end2\nmul.wide.s32 %rd3, %r2, 4\nadd.s64 %rd4, %rd1, %rd3\nst.global.s32 [%rd4], %r7"];
+  B5 [label="B5 (function 0)\nL_end1\nret "];
+  B0 -> B5;
+  B0 -> B1;
+  B1 -> B2;
+  B2 -> B4;
+  B2 -> B3;
+  B3 -> B2;
+  B4 -> B5;
+}
