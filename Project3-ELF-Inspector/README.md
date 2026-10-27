@@ -75,7 +75,21 @@ Unknown section and relocation types are printed numerically instead of causing 
 
 `make test` generates small ELF64 object fixtures and exercises header, section, symbol, relocation, combined output, and symbol resolution. It also checks empty, non-ELF, truncated, ELF32, and out-of-range section-table inputs; malformed files must exit with a diagnostic rather than crash. When GNU `readelf` is installed, the script compares section-name order, symbol names/bindings/section indices, and relocation offsets/types/symbols against it. Without `readelf`, that comparison is reported as skipped.
 
-The fixtures are constructed by `tests/make_fixtures.py`, so the core test suite does not need a CUDA GPU or a C compiler. They are test objects, not actual NVIDIA cubins. If `readelf` is available, you can additionally compile real samples with `gcc -c -O0 tests/samples/a.c -o a.o` and inspect the resulting objects.
+The core tests and malformed-input tests passed both in Windows Developer PowerShell and in Google Colab. In Colab, the generated fixture comparison against GNU `readelf` also passed, and `make sanitize` passed with AddressSanitizer and UndefinedBehaviorSanitizer enabled.
+
+Additional checks used actual compiler output:
+
+```sh
+gcc -c -O0 tests/samples/a.c -o tests/generated/real_a.o
+gcc -c -O0 tests/samples/b.c -o tests/generated/real_b.o
+./elfinspect tests/generated/real_a.o --all
+./elfinspect --resolve tests/generated/real_a.o tests/generated/real_b.o
+readelf -h -SW -sW -rW tests/generated/real_a.o
+```
+
+The inspector and GNU `readelf` agreed on the real object's section names, symbols and bindings, and relocation offsets and types. The resolver reported that `real_a.o` defines `counter` and `main` and needs `helper` from `real_b.o`; `real_b.o` defines `helper` and needs `counter` from `real_a.o`; no symbols remained unresolved and there were no duplicate strong definitions.
+
+A CUDA cubin was also produced from Project 2's `vadd.ptx` with `ptxas -arch=sm_75`. The inspector's `--all` report completed and identified `Machine: NVIDIA CUDA (190)`, the ELF header, sections, and symbols. It explicitly reported that REL relocations in `.rel.debug_frame` are not supported; it did not decode that relocation section.
 
 ## Limitations
 
@@ -85,4 +99,4 @@ The fixtures are constructed by `tests/make_fixtures.py`, so the core test suite
 - Relocation names cover common x86-64 entries. Other machine-specific relocation numbers are shown numerically; CUDA machine type is recognized, but NVIDIA-specific relocation semantics are not interpreted.
 - Extended section numbering, compressed sections, and DWARF line programs are not implemented.
 - The symbol resolver reports matches, unresolved names, and duplicate strong definitions. It does not create a linked executable or apply relocations.
-- No actual `.cubin` was available in this Windows workspace during development; the CUDA machine-number display is covered using a synthetic ELF header fixture. A real cubin inspection is a stretch validation.
+- NVIDIA-specific cubin relocation semantics are not interpreted. The tested cubin contains a `.rel.debug_frame` section, whose REL entries are recognized but not decoded.
