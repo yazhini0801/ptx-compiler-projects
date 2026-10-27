@@ -1,4 +1,4 @@
-# PTX Compiler Internship Projects
+# PTX Compiler Projects
 
 This repository contains two related C++ projects focused on NVIDIA PTX and compiler fundamentals.
 
