@@ -9,7 +9,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 GEN = pathlib.Path(__file__).resolve().parent / "generated"
-EXE = pathlib.Path(os.environ.get("ELFINSPECT", ROOT / ("elfinspect.exe" if os.name == "nt" else "elfinspect")))
+EXE = pathlib.Path(os.environ.get("ELFINSPECT", ROOT / ("elfinspect.exe" if os.name == "nt" else "elfinspect"))).resolve()
 
 
 def run(*args, ok=True):
