@@ -31,7 +31,9 @@ ElfFile::ElfFile(const std::string& path) : path_(path) {
         throw std::runtime_error("not an ELF file: " + path);
     if (header_.e_ident[EI_CLASS] != ELFCLASS64) throw std::runtime_error("unsupported ELF class (only ELF64 is supported): " + path);
     if (header_.e_ident[EI_DATA] != ELFDATA2LSB) throw std::runtime_error("unsupported ELF byte order (only little-endian is supported): " + path);
-    if (header_.e_ident[6] != 1 || header_.e_version != 1) throw std::runtime_error("unsupported or invalid ELF version: " + path);
+    if (header_.e_ident[6] != 1 ||
+        (header_.e_version != 1 && !(header_.e_machine == 190 && header_.e_version == 0x81)))
+        throw std::runtime_error("unsupported or invalid ELF version: " + path);
     if (header_.e_ehsize < sizeof(Elf64_Ehdr)) throw std::runtime_error("invalid ELF header size: " + path);
     if (header_.e_shoff == 0 || header_.e_shnum == 0) return; // valid sectionless ELF
     if (header_.e_shentsize < sizeof(Elf64_Shdr)) throw std::runtime_error("section-header entries are too small: " + path);

@@ -69,7 +69,7 @@ ELF is a binary file format. The reader loads the file into a byte vector and va
 - A **relocation** tells a linker where a reference needs fixing after final addresses are known. For x86-64 `PC32` and `PLT32`, the common formula is `S + A - P`: symbol address plus addend minus the patch location.
 - A **linker** combines object files, resolves symbols, assigns addresses, and applies relocations. A loader later maps an executable into memory. This inspector reports some of the linker's inputs but does not perform those jobs.
 
-Unknown section and relocation types are printed numerically instead of causing a failure. Machine number 190 is identified as NVIDIA CUDA for CUDA ELF headers such as cubins.
+Unknown section and relocation types are printed numerically instead of causing a failure. Machine number 190 is identified as NVIDIA CUDA for CUDA ELF headers such as cubins. The NVIDIA CUDA ELF version value `0x81` is accepted for machine 190; standard ELF inputs still require version 1.
 
 ## Tests and verification
 

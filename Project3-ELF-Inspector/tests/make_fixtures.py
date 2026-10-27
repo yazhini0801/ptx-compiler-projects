@@ -100,6 +100,7 @@ def main():
     (ROOT / "truncated.o").write_bytes((ROOT / "a.o").read_bytes()[:-12])
     cuda = bytearray((ROOT / "a.o").read_bytes())
     struct.pack_into("<H", cuda, 18, 190)  # e_machine = EM_CUDA
+    struct.pack_into("<I", cuda, 20, 0x81)  # NVIDIA's cubin ELF version
     (ROOT / "cuda-machine.o").write_bytes(cuda)
 
 
