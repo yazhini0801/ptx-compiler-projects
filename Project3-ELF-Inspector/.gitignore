@@ -1,0 +1,5 @@
+elfinspect
+elfinspect-sanitize
+elfinspect.exe
+*.obj
+tests/generated/

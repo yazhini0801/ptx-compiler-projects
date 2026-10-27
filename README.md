@@ -6,8 +6,9 @@ This repository contains two related C++ projects focused on NVIDIA PTX and comp
 
 - [Project 1: PTX Analyzer](Project1-PTX-Analyzer/README.md) parses PTX, builds control-flow graphs, and performs dominator, natural-loop, liveness, register-pressure, and unreachable-block analyses.
 - [Project 2: Tiny GPU Language to PTX Compiler](Project2-PTX-Compiler/README.md) compiles a small C-like GPU language to PTX, with tests for parsing, semantic errors, control flow, and PTX generation.
+- [Project 3: ELF Inspector and Mini Symbol Resolver](Project3-ELF-Inspector/README.md) safely inspects ELF64 headers, sections, symbols, and relocations, then reports symbol resolution across object files.
 
-Each project has its own build instructions, tests, examples, and limitations. Project 2 includes a hand trace of generated PTX and Colab assembler screenshots. Its generated `vadd` PTX was assembled with `ptxas` and executed on a Colab Tesla T4; all 1,024 results matched expected values.
+Each project has its own build instructions, tests, examples, and limitations. Project 2 includes a hand trace of generated PTX and Colab assembler screenshots. Its generated `vadd` PTX was assembled with `ptxas` and executed on a Colab Tesla T4; all 1,024 results matched expected values. Project 3's tests use small generated ELF fixtures and optionally compare key output with GNU `readelf` when available.
 
 ## Build
 
