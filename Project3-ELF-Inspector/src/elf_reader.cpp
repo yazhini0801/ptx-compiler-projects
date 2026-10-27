@@ -140,7 +140,10 @@ std::string symbolBindName(unsigned char b) {
     switch (b) { case STB_LOCAL: return "LOCAL"; case STB_GLOBAL: return "GLOBAL"; case STB_WEAK: return "WEAK"; default: return "bind-" + std::to_string(b); }
 }
 std::string symbolSectionName(std::uint16_t s) {
-    if (s == SHN_UNDEF) return "UND"; if (s == SHN_ABS) return "ABS"; if (s == SHN_COMMON) return "COM"; return std::to_string(s);
+    if (s == SHN_UNDEF) return "UND";
+    if (s == SHN_ABS) return "ABS";
+    if (s == SHN_COMMON) return "COM";
+    return std::to_string(s);
 }
 std::string flagsName(std::uint64_t f) {
     std::string out; if (f & SHF_WRITE) out += 'W'; if (f & SHF_ALLOC) out += 'A'; if (f & SHF_EXECINSTR) out += 'X'; return out.empty() ? "-" : out;
