@@ -89,6 +89,10 @@ readelf -h -SW -sW -rW tests/generated/real_a.o
 
 The inspector and GNU `readelf` agreed on the real object's section names, symbols and bindings, and relocation offsets and types. The resolver reported that `real_a.o` defines `counter` and `main` and needs `helper` from `real_b.o`; `real_b.o` defines `helper` and needs `counter` from `real_a.o`; no symbols remained unresolved and there were no duplicate strong definitions.
 
+### Hand trace: the `helper` call
+
+In `real_a.o`, `main` calls `helper`, but the address of `helper` is not known while `real_a.o` is compiled by itself. The object therefore contains a relocation in `.rela.text` at offset `0xe`, with type `R_X86_64_PLT32`, symbol `helper`, and addend `-4`. The offset points to the call's address field that needs fixing. The resolver finds the matching global definition of `helper` in `real_b.o`. When a linker combines the files, it uses that definition (or its PLT entry) to calculate the PC-relative call displacement and writes the result into the marked field. In this relocation family, the calculation is `S + A - P`: `S` is the chosen address for `helper`, `A` is `-4`, and `P` is the address of the field being patched. This inspector reports the relocation; it does not perform the patch.
+
 A CUDA cubin was also produced from Project 2's `vadd.ptx` with `ptxas -arch=sm_75`. The inspector's `--all` report completed and identified `Machine: NVIDIA CUDA (190)`, the ELF header, sections, and symbols. It explicitly reported that REL relocations in `.rel.debug_frame` are not supported; it did not decode that relocation section.
 
 ## Limitations
