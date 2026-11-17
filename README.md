@@ -1,6 +1,6 @@
 # PTX Compiler Projects
 
-This repository contains two related C++ projects focused on NVIDIA PTX and compiler fundamentals.
+This repository contains two related C++ projects focused on  PTX and compiler fundamentals.
 
 ## Projects
 
